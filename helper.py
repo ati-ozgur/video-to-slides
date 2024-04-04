@@ -27,14 +27,15 @@ def video_to_images(video_path,output_dir):
 		frame_number = int(frame_number)
 		if frame_number % fps > 0:
 			continue
+		seconds = frame_number // fps
+		minutes = seconds // 60			
 		similarity = image_compare_structural_similarity(previously_saved_image,frame)
 		if similarity > 0.9:
-			print("skipping saving image,similarity is high",similarity,"frame_number",frame_number)
+			print("skipping saving image,similarity is high, frame_number:",frame_number,", seconds:",seconds,",minutes:",minutes," saved"," similarity",similarity)
 			continue
 
 
-		seconds = frame_number // fps
-		minutes = seconds // 60
+
 		filename = f"{output_dir}/{saved_image_number:05d}.png"  # Pad with zeros
 		cv2.imwrite(filename, frame)
 		previously_saved_image = frame

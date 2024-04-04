@@ -10,7 +10,7 @@ def video_to_images(video_path,output_dir):
 		print("Error opening video file!")
 		exit()
 
-	prev_image = None
+	previously_saved_image = None
 	while True:
 		ret, frame = cap.read()
 
@@ -20,16 +20,20 @@ def video_to_images(video_path,output_dir):
 		frame_time = cap.get(cv2.CAP_PROP_POS_MSEC) / 1000  # Time in seconds (optional)
 		frame_number = cap.get(cv2.CAP_PROP_POS_FRAMES) - 1  # Adjust for 0-based indexing
 		frame_number = int(frame_number)
+		if frame_number % 1000 > 0:
+			continue
 		filename = f"{output_dir}/frame_{frame_number:05d}.png"  # Pad with zeros
 
-		similarity = image_compare_structural_similarity(prev_image,frame)
-		prev_image = frame
+		similarity = image_compare_structural_similarity(previously_saved_image,frame)
 		if similarity > 0.9:
 			print("skipping saving image,similarity is high",similarity,"frame_number",frame_number)
 			continue
 
 		cv2.imwrite(filename, frame)
-		print("frame_number saved",frame_number,"similarity",similarity)
+		previously_saved_image = frame
+		seconds = frame_number // 1000
+		minutes = seconds // 60
+		print("frame_number:",frame_number,", seconds:",seconds,",minutes:",minutes," saved"," similarity",similarity)
 
 	cap.release()
 	cv2.destroyAllWindows()

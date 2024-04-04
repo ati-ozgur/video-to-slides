@@ -11,6 +11,7 @@ def video_to_images(video_path,output_dir):
 		exit()
 
 	previously_saved_image = None
+	saved_image_number = 0
 	while True:
 		ret, frame = cap.read()
 
@@ -31,8 +32,9 @@ def video_to_images(video_path,output_dir):
 		previously_saved_image = frame
 		seconds = frame_number // 60
 		minutes = seconds // 60
-		filename = f"{output_dir}/{seconds:05d}.png"  # Pad with zeros
+		filename = f"{output_dir}/{saved_image_number:05d}.png"  # Pad with zeros
 		cv2.imwrite(filename, frame)
+		saved_image_number = saved_image_number +1
 		print("frame_number:",frame_number,", seconds:",seconds,",minutes:",minutes," saved"," similarity",similarity)
 
 	cap.release()

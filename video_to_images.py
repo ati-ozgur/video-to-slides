@@ -1,10 +1,13 @@
 import os
-
+import argparse
 
 from helper import video_to_images
 
-video_path = "videos/a.mp4"  # Replace with your actual video path
-output_dir = "extracted_frames"
-os.makedirs(output_dir, exist_ok=True)  # Create directory if it doesn't exist
+parser = argparse.ArgumentParser()
+parser.add_argument('video_filename')   # positional argument
+parser.add_argument('-o', '--output_directory',default='extracted_frames')
 
-video_to_images(video_path,output_dir)
+
+
+args = parser.parse_args()
+video_to_images(args.video_filename,args.output_directory)

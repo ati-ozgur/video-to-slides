@@ -1,7 +1,9 @@
 import cv2
 from skimage.metrics import structural_similarity as ssim
 
-def video_to_images(video_path,output_dir):
+def video_to_images(video_path,
+			output_dir,
+			similarity_threshold=0.9):
 
 
 	cap = cv2.VideoCapture(video_path)
@@ -30,7 +32,7 @@ def video_to_images(video_path,output_dir):
 		seconds = frame_number // fps
 		minutes = seconds // 60			
 		similarity = image_compare_structural_similarity(previously_saved_image,frame)
-		if similarity > 0.9:
+		if similarity > similarity_threshold:
 			print("skipping saving image,similarity is high, frame_number:",frame_number,", seconds:",seconds,",minutes:",minutes," saved"," similarity",similarity)
 			continue
 

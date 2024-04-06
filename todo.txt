@@ -1,0 +1,9 @@
+todo.txt
+
+1. download subtitles
+2. extract subtitles
+3. remove time and other information from subtitles
+4. create markdown revealjs presentation from images
+5. put subtitle information according to time to revealjs presentation
+
+6. python package

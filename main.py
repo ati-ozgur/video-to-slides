@@ -1,4 +1,5 @@
-from download_youtube import download_youtube_video
+import argparse
+
 
 from helper import * 
 
@@ -16,9 +17,10 @@ if __name__ == "__main__":
 
 	args = parser.parse_args()
 
-	downloaded_video_path = download_youtube_video(args.url,args.output_directory)
+	downloaded_video_path = download_youtube_video(args.url,
+			args.output_directory_video)
 	print(f"Video downloaded to: {downloaded_video_path}")
 
 	video_to_images(downloaded_video_path
-		,args.output_directory
+		,args.output_directory_extracted
 		,args.similarity_threshold)

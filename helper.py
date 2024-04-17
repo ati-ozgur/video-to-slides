@@ -94,16 +94,16 @@ def download_youtube_subtitle(youtube_url,
 
 	youtube_dl_cmd = ["yt-dlp",
 						"--skip-download",
+						"--write-auto-sub",
 						"--sub-format", "srt",
 						"--sub-langs", language,
 						"-o", output_filename,
 				 youtube_url]
 	try:
-		process = subprocess.run(youtube_dl_cmd, check=True, capture_output=True)
+		process = subprocess.run(youtube_dl_cmd, check=True)
+
 	except subprocess.CalledProcessError as e:
 		raise RuntimeError(f"youtube-dl download failed: {e.output}") from e
-
-	# Return the path to the downloaded video
 	return output_filename + f".{language}.vtt"
 
 
@@ -133,13 +133,11 @@ def download_youtube_video(youtube_url,
 	youtube_dl_cmd = ["yt-dlp",
 					 "--format", "22",  # Download the 720p
 					 "-o", output_filename,  # Specify output filename template
-										 youtube_url]
+					 youtube_url]
 
-	# Execute the youtube-dl command
 	try:
-		process = subprocess.run(youtube_dl_cmd, check=True, capture_output=True)
+		process = subprocess.run(youtube_dl_cmd, check=True)
 	except subprocess.CalledProcessError as e:
-		raise RuntimeError(f"youtube-dl download failed: {e.output}") from e
+		raise RuntimeError("youtube-dl download failed")
 
-	# Return the path to the downloaded video
 	return output_filename

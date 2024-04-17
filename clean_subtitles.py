@@ -37,7 +37,7 @@ regex_search_term_list = [
 ]
 
 
-def write_cleaned_subtitle(filename,)
+def write_cleaned_subtitle(filename):
 
 
 	with open(filename) as f:

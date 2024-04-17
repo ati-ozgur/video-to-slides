@@ -84,8 +84,31 @@ def get_video_id(url):
 	return video_id
 
 
+def download_youtube_subtitle(youtube_url,
+		language = "en",
+		 output_dir="videos"):
+	video_id = get_video_id(youtube_url)
 
-def download_youtube_video(youtube_url, output_dir="videos"):
+	# Construct a unique filename with video ID and extension
+	output_filename = f"{output_dir}/{video_id}"
+
+	youtube_dl_cmd = ["yt-dlp",
+						"--skip-download",
+						"--sub-format", "srt",
+						"--sub-langs", language,
+						"-o", output_filename,
+				 youtube_url]
+	try:
+		process = subprocess.run(youtube_dl_cmd, check=True, capture_output=True)
+	except subprocess.CalledProcessError as e:
+		raise RuntimeError(f"youtube-dl download failed: {e.output}") from e
+
+	# Return the path to the downloaded video
+	return output_filename + f".{language}.vtt"
+
+
+def download_youtube_video(youtube_url,
+		 output_dir="videos"):
 	"""Downloads a YouTube video using yt-dlp (youtube-dl fork) and saves it with a unique filename.
 
 	Args:
@@ -108,8 +131,8 @@ def download_youtube_video(youtube_url, output_dir="videos"):
 
 	# Build the youtube-dl command with options for format selection and output filename
 	youtube_dl_cmd = ["yt-dlp",
-										 "--format", "22",  # Download the 720p
-										 "-o", output_filename,  # Specify output filename template
+					 "--format", "22",  # Download the 720p
+					 "-o", output_filename,  # Specify output filename template
 										 youtube_url]
 
 	# Execute the youtube-dl command

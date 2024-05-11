@@ -1,2 +1,2 @@
-skimage==0.0
+scikit-image==0.23.2
 opencv-python==4.9.0.80

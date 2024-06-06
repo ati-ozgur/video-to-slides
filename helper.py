@@ -106,6 +106,20 @@ def download_youtube_subtitle(youtube_url,
 		raise RuntimeError(f"youtube-dl download failed: {e.output}") from e
 	return output_filename + f".{language}.vtt"
 
+from os.path import exists
+
+def filename_from_youtube_url(youtube_url,output_dir="videos"):
+	video_id = get_video_id(youtube_url)
+
+	# Construct a unique filename with video ID and extension
+	output_filename = f"{output_dir}/{video_id}.mp4"
+	return output_filename
+
+def video_already_downloaded(youtube_url,output_dir="videos"):
+	output_filename = filename_from_youtube_url(youtube_url,output_dir)
+	file_exists = exists(output_filename)
+	return file_exists
+
 
 def download_youtube_video(youtube_url,
 		 output_dir="videos"):
@@ -123,11 +137,8 @@ def download_youtube_video(youtube_url,
 			RuntimeError: If the download process fails.
 	"""
 
-	# Extract the unique YouTube video ID from the URL
-	video_id = get_video_id(youtube_url)
+	output_filename = filename_from_youtube_url(youtube_url,output_dir)
 
-	# Construct a unique filename with video ID and extension
-	output_filename = f"{output_dir}/{video_id}.mp4"
 
 	# Build the youtube-dl command with options for format selection and output filename
 	youtube_dl_cmd = ["yt-dlp",

@@ -16,6 +16,7 @@ if __name__ == "__main__":
 	parser.add_argument('-lang', '--language',type=str,default="en",help='if download subtitle False, ignored, otherwise language of the subtitle')
 	parser.add_argument('-novid', '--no_video_download',type=bool,default=False,help='Do not download video and extract slides')
 	parser.add_argument('-vidr', '--video_already_downloaded',type=bool,default=False,help='Video already download, just extract slides')
+	parser.add_argument('-ifps', '--image_per_second',type=float,default='1.0',help='0.5 for 2 images per second, 2 for 1 image per 2 second, 0.1, 1 image per second')
 
 
 
@@ -32,7 +33,8 @@ if __name__ == "__main__":
 		print(f"skipping downloading video, since it is already downloaded in {downloaded_video_path} and extracting slides")
 		video_to_images(downloaded_video_path
 			,args.output_directory_extracted
-			,args.similarity_threshold)
+			,args.similarity_threshold
+			,args.image_per_second)
 	elif not args.no_video_download:
 		downloaded_video_path = download_youtube_video(args.url,
 				args.output_directory_video)

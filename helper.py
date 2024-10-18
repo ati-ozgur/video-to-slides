@@ -8,7 +8,9 @@ from skimage.metrics import structural_similarity as ssim
 
 def video_to_images(video_path,
 			output_dir,
-			similarity_threshold=0.9):
+			similarity_threshold=0.9,
+			image_per_second=1.0
+			):
 
 
 	cap = cv2.VideoCapture(video_path)
@@ -19,7 +21,10 @@ def video_to_images(video_path,
 
 	fps = cap.get(cv2.CAP_PROP_FPS)
 	fps = int(fps)
+	image_fps = int(fps * image_per_second)
 	print("fps",fps)
+	print(f"every {image_fps} frames one image will be used")
+	print(f"every {image_per_second} seconds,  one image will be used")
 
 	previously_saved_image = None
 	saved_image_number = 0
@@ -32,7 +37,7 @@ def video_to_images(video_path,
 		frame_time = cap.get(cv2.CAP_PROP_POS_MSEC) / 1000  # Time in seconds (optional)
 		frame_number = cap.get(cv2.CAP_PROP_POS_FRAMES) - 1  # Adjust for 0-based indexing
 		frame_number = int(frame_number)
-		if frame_number % fps > 0:
+		if frame_number % image_fps > 0:
 			continue
 		seconds = frame_number // fps
 		minutes = seconds // 60			

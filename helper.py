@@ -142,7 +142,7 @@ def download_youtube_video(youtube_url,
 
 	# Build the youtube-dl command with options for format selection and output filename
 	youtube_dl_cmd = ["yt-dlp",
-					 "--format", "22",  # Download the 720p
+					 "--format", "bv",  # best video
 					 "-o", output_filename,  # Specify output filename template
 					 youtube_url]
 
